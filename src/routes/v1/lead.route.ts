@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import { LeadController } from '../../controllers/lead/Lead.controller';
-import { asyncHandler } from '@/middlewares/asyncHandler';
+import { asyncHandler } from '../../middlewares/asyncHandler';
 
 /**
  * @module routes/v1/leads

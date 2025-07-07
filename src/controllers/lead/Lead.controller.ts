@@ -1,13 +1,13 @@
 import { Request, Response, NextFunction } from 'express';
 import { prisma } from '../../lib/prisma';
-import logger from '@/utils/logger';
+import logger from '../../utils/logger';
 
 export const LeadController = {
     async create(req: Request, res: Response, next: NextFunction) {
         try {
-            const { full_name, email, phone, source } = req.body;
+            const { fullName, email, phone, source } = req.body;
             const lead = await prisma.lead.create({
-                data: { full_name, email, phone, source },
+                data: { fullName, email, phone, source },
             });
             logger.info(`Lead created: ${lead.id}`);
             res.status(201).json(lead);

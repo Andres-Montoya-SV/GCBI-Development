@@ -1,6 +1,6 @@
 import { Router } from 'express';
-import { LogController } from '@/controllers/logs/Log.controller';
-import { asyncHandler } from '@/middlewares/asyncHandler';
+import { LogController } from '../../controllers/logs/Log.controller';
+import { asyncHandler } from '../../middlewares/asyncHandler';
 
 /**
  * @module routes/v1/logs

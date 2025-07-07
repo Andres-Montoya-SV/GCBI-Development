@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
-import logger from '@/utils/logger';
+import logger from '../../utils/logger';
 import { prisma } from '../../lib/prisma';
 
 export const SyncController = {
@@ -12,7 +12,7 @@ export const SyncController = {
                     source: 'ZOHO',
                     status: 'SUCCESS',
                     payload: JSON.stringify({ simulated: true }),
-                    synced_at: new Date(),
+                    syncedAt: new Date(),
                 },
             });
 

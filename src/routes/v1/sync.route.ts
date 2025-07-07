@@ -1,6 +1,6 @@
 import { Router } from 'express';
-import { SyncController } from '@/controllers/sync/Sync.controller';
-import { asyncHandler } from '@/middlewares/asyncHandler';
+import { SyncController } from '../../controllers/sync/Sync.controller';
+import { asyncHandler } from '../../middlewares/asyncHandler';
 
 /**
  * @module routes/v1/sync

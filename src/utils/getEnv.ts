@@ -6,12 +6,13 @@ import { z } from 'zod';
  */
 const envSchema = z.object({
     PORT: z.string().regex(/^\d+$/, 'PORT must be a number'),
-    BASE_URL: z.string().url('BASE_URL must be a valid URL'),
+    DATABASE_URL: z.string().url('DATABASE_URL must be a valid URL'),
     NODE_ENV: z.enum(['dev', 'production', 'test'], {
         errorMap: () => ({
             message: 'NODE_ENV must be one of: dev, production, test',
         }),
     }),
+    BASE_URL: z.string().url('BASE_URL must be a valid URL'),
 });
 
 /**
