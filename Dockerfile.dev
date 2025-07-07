@@ -1,0 +1,23 @@
+# Base image
+FROM node:20-alpine
+
+# Set working directory
+WORKDIR /app
+
+# Install global tools (optional, e.g. pnpm or nodemon)
+RUN npm install -g ts-node-dev
+
+# Copy package.json and lock
+COPY package*.json ./
+
+# Install all dependencies (including dev)
+RUN npm install
+
+# Copy all source files
+COPY . .
+
+# Expose port
+EXPOSE 1989
+
+# Start the dev server with hot reload
+CMD ["ts-node-dev", "--respawn", "--transpile-only", "src/index.ts"]

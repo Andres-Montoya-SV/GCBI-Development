@@ -1,0 +1,44 @@
+version: "3.9"
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile # can be switched to Dockerfile.dev for dev testing, or debug
+    container_name: gcbi-api
+    restart: always
+    ports:
+      - "1989:1989"
+    environment:
+      - NODE_ENV=production
+      - PORT=1989
+      - BASE_URL=http://localhost
+      - DATABASE_URL=postgres://postgres:postgres@db:5432/gcbi
+    depends_on:
+      - db
+    volumes:
+      - .:/app
+      - /app/node_modules
+    networks:
+      - gcbi-net
+
+  db:
+    image: postgres:15-alpine
+    container_name: gcbi-db
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: gcbi
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    networks:
+      - gcbi-net
+
+networks:
+  gcbi-net:
+
+volumes:
+  pgdata:
