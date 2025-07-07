@@ -1,0 +1,59 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id           String   @id @default(uuid())
+  username     String   @unique
+  email        String   @unique
+  passwordHash String
+  role         String
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  logs         Log[]
+}
+
+model Lead {
+  id        String   @id @default(uuid())
+  fullName  String
+  email     String
+  phone     String?
+  source    String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Log {
+  id         String   @id @default(uuid())
+  endpoint   String
+  method     String
+  statusCode Int
+  timestamp  DateTime @default(now())
+  user       User?    @relation(fields: [userId], references: [id])
+  userId     String?
+}
+
+model SyncRecord {
+  id        String   @id @default(uuid())
+  source    SyncSource
+  status    SyncStatus
+  payload   Json
+  syncedAt  DateTime @default(now())
+}
+
+enum SyncSource {
+  ZOHO
+  CRM
+}
+
+enum SyncStatus {
+  PENDING
+  SUCCESS
+  ERROR
+}

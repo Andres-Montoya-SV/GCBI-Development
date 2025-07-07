@@ -1,15 +1,17 @@
-import { Router } from 'express';
+import { Router, Request, Response } from 'express';
 import { InfoController } from '../../controllers';
 import { asyncHandler } from '../../middlewares/asyncHandler';
 
 /**
- * Router for handling public information endpoints.
- *
- * - `GET /info`: Returns general information about the API or system.
- *
  * @module routes/v1/info
- * @returns {Router} Express router with /info route
+ * @description
+ * Handles public endpoints related to general API information and health check.
+ *
+ * - `GET /v1/info` – Returns general API metadata.
+ * - `GET /v1/health` – Verifies service health and uptime.
  */
+
+const router: Router = Router();
 
 /**
  * @openapi
@@ -18,12 +20,22 @@ import { asyncHandler } from '../../middlewares/asyncHandler';
  *     tags:
  *       - Info
  *     summary: Get general information about the API
+ *     description: Returns metadata about the API version, environment, and status.
  *     responses:
  *       200:
- *         description: OK
+ *         description: API information retrieved successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 version:
+ *                   type: string
+ *                   example: "1.0.0"
+ *                 status:
+ *                   type: string
+ *                   example: "running"
  */
-const router: Router = Router();
-
 router.get('/info', asyncHandler(InfoController.information));
 
 /**
@@ -33,12 +45,28 @@ router.get('/info', asyncHandler(InfoController.information));
  *     tags:
  *       - Health
  *     summary: Health check
+ *     description: Verifies that the API is up and responding to requests.
  *     responses:
  *       200:
  *         description: Returns the health status and timestamp
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 status:
+ *                   type: string
+ *                   example: ok
+ *                 timestamp:
+ *                   type: string
+ *                   format: date-time
+ *                   example: 2025-07-07T18:24:53.173Z
  */
-router.get('/health', (_req, res) => {
-  res.status(200).json({ status: 'ok', timestamp: new Date().toISOString() });
+router.get('/health', (_req: Request, res: Response) => {
+    res.status(200).json({
+        status: 'ok',
+        timestamp: new Date().toISOString(),
+    });
 });
 
 export default router;
